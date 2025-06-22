@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, easeInOut } from 'framer-motion'
 import { 
   Menu, X, ChevronDown, BookOpen, GraduationCap, Book, 
   User, Home, Star, Award, Package, LogIn, UserPlus, 
@@ -47,18 +47,10 @@ const navLinks: NavLink[] = [
     icon: Home
   },
   { 
-    name: 'Subjects', 
-    href: '#',
-    dropdown: true,
-    badge: 'New',
-    items: [
-      { name: 'Math', icon: Book, href: '/subjects/math', badge: 'Popular' },
-      { name: 'Physics', icon: Book, href: '/subjects/physics' },
-      { name: 'Chemistry', icon: Book, href: '/subjects/chemistry', badge: 'Trending' },
-      { name: 'Biology', icon: Book, href: '/subjects/biology' },
-      { name: 'English', icon: Book, href: '/subjects/english', badge: 'New' },
-      { name: 'History', icon: Book, href: '/subjects/history' }
-    ]
+    name: 'Courses', 
+    href: '/subject',
+    icon: BookOpen,
+    
   },
   { 
     name: 'Academic Resources', 
@@ -193,7 +185,7 @@ export default function Navbar() {
       scale: 1,
       transition: { 
         duration: 0.2,
-        ease: [0.42, 0, 0.58, 1] // cubic-bezier for easeInOut
+        ease: easeInOut
       }
     },
     exit: { 
@@ -202,7 +194,7 @@ export default function Navbar() {
       scale: 0.95,
       transition: { 
         duration: 0.15,
-        ease: [0.42, 0, 0.58, 1] // cubic-bezier for easeInOut
+        ease: easeInOut
       }
     }
   }
@@ -210,7 +202,7 @@ export default function Navbar() {
   // Hover animations for buttons
   const hoverAnimation = {
     scale: 1.05,
-    transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] }
+    transition: { duration: 0.2, ease: easeInOut }
   }
 
   // Handle login/logout
@@ -529,10 +521,6 @@ export default function Navbar() {
                             <User className="h-4 w-4 mr-2 text-emerald-600 dark:text-emerald-400" />
                             <span>My Profile</span>
                           </Link>
-                          <Link href="/dashboard" className="flex items-center p-3 text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-lg">
-                            <Home className="h-4 w-4 mr-2 text-emerald-600 dark:text-emerald-400" />
-                            <span>Dashboard</span>
-                          </Link>
                           <button 
                             className="flex items-center w-full p-3 text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-lg"
                             onClick={handleAuthAction}
@@ -761,15 +749,6 @@ export default function Navbar() {
                       <div className="space-y-2">
                         {isLoggedIn ? (
                           <>
-                            <Button 
-                              asChild
-                              className="w-full justify-start rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
-                            >
-                              <Link href="/dashboard" onClick={() => setOpen(false)}>
-                                <Home className="h-4 w-4 mr-2" />
-                                Student Dashboard
-                              </Link>
-                            </Button>
                             <Button 
                               variant="outline"
                               className="w-full justify-start rounded-lg border-emerald-300 text-emerald-700 dark:text-emerald-400"
