@@ -127,6 +127,11 @@ export default function Navbar() {
     setLanguage(lang)
     localStorage.setItem('fayida-language', lang)
     setLanguageOpen(false)
+    
+    // Dispatch custom event to notify other components
+    window.dispatchEvent(new CustomEvent('languageChange', {
+      detail: { language: lang }
+    }));
   }
 
   // Handle scroll effect for navbar
@@ -439,7 +444,7 @@ export default function Navbar() {
               >
                 <Button
                   asChild
-                  className="rounded-xl font-medium bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-lg hover:shadow-emerald-300 text-white group"
+                  className="rounded-xl font-medium bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white py-6 shadow-lg"
                 >
                 </Button>
               </motion.div>
