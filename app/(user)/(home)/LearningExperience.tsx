@@ -1,5 +1,5 @@
 'use client'
-
+import Image from 'next/image';
 import { motion, Variants } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -314,44 +314,17 @@ export default function LearningExperience() {
           </motion.div>
         </div>
 
-        {/* CTA Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mt-24 bg-gradient-to-r from-emerald-600 to-teal-500 rounded-3xl p-10 text-center shadow-2xl relative overflow-hidden"
-        >
-          {/* Pattern overlay */}
-          <div className="absolute inset-0 opacity-10 bg-[url('/ethiopian-pattern.svg')] bg-repeat"></div>
-          
-          <div className="relative z-10 max-w-3xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              Ready to Transform Your Learning?
-            </h3>
-            <p className="text-emerald-100 mb-8 text-lg">
-              Join thousands of Ethiopian students excelling with Fayida Academy
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button 
-                size="lg" 
-                className="bg-white text-emerald-600 hover:bg-emerald-50 py-6 text-lg font-bold shadow-lg"
-              >
-                <Bookmark className="mr-2 h-5 w-5" />
-                Enroll Now
-              </Button>
-              <Button 
-                variant="outline"
-                size="lg"
-                className="bg-transparent border-white text-white hover:bg-white/10 py-6 text-lg"
-              >
-                <PlayCircle className="mr-2 h-5 w-5" />
-                Watch Demo
-              </Button>
-            </div>
+        {/* promotion Banner */}
+          <Image
+            src="/math.jpg"
+            alt="Promotion Banner"
+            width={100}
+            height={100}
+            className="w-auto h-auto rounded-2xl shadow-lg object-cover justify-center mx-auto mt-16"
+            style={{ maxHeight: '300px',minWidth: '900px', objectFit: 'cover' }}
+            priority
+          />
           </div>
-        </motion.div>
-      </div>
     </section>
   );
 }

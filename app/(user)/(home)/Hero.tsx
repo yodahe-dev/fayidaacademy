@@ -41,7 +41,16 @@ const content = {
   }
 };
 
-const images = [
+type ImageLang = { title: string; description: string };
+type ImageType = {
+  id: number;
+  src: string;
+  alt: string;
+  en: ImageLang;
+  am: ImageLang;
+};
+
+const images: ImageType[] = [
   { 
     id: 1, 
     src: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80", 
@@ -366,10 +375,10 @@ const Hero = () => {
               {/* Overlay with text */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
                 <h3 className="text-xl font-bold">
-                  {images[currentIndex][language as keyof (typeof images[0])].title}
+                  {images[currentIndex][language === 'am' ? 'am' : 'en'].title}
                 </h3>
                 <p className="text-sm mt-2">
-                  {images[currentIndex][language as keyof (typeof images[0])].description}
+                  {images[currentIndex][language === 'am' ? 'am' : 'en'].description}
                 </p>
               </div>
               
