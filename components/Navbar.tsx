@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
 // Navigation data structure
 type NavItem = {
@@ -50,16 +51,21 @@ const navLinks: NavLink[] = [
     name: 'Courses', 
     href: '/subject',
     icon: BookOpen,
-    
   },
   { 
-    name: 'Academic Resources', 
+    name: 'Packages', 
+    href: '/packages',
+    icon: Package,
+  },
+  { 
+    name: 'Resources', 
     href: '/resources',
     icon: BookOpen,
     badge: 'Updated'
   },
+  
   { 
-    name: 'About Fayida', 
+    name: 'About', 
     href: '/about',
     icon: GraduationCap
   }
@@ -71,13 +77,10 @@ const achievementBadges = [
   { name: 'Language Expert', icon: Award, color: 'bg-blue-500' },
 ]
 
-// Language options
+// Language options - Amharic and English prioritized
 const languageOptions = [
-  { code: 'en', name: 'English', flag: '🇬🇧' },
   { code: 'am', name: 'Amharic', flag: '🇪🇹' },
-  { code: 'om', name: 'Oromo', flag: '🇪🇹' },
-  { code: 'ti', name: 'Tigrinya', flag: '🇪🇷' },
-  { code: 'so', name: 'Somali', flag: '🇸🇴' },
+  { code: 'en', name: 'English', flag: '🇬🇧' },
 ]
 
 export default function Navbar() {
@@ -96,16 +99,14 @@ export default function Navbar() {
   // Initialize theme and language from localStorage
   useEffect(() => {
     const savedTheme = localStorage.getItem('fayida-theme')
-    const savedLanguage = localStorage.getItem('fayida-language')
+    const savedLanguage = localStorage.getItem('fayida-language') || 'en'
     
     if (savedTheme === 'dark') {
       setDarkMode(true)
       document.documentElement.classList.add('dark')
     }
     
-    if (savedLanguage) {
-      setLanguage(savedLanguage)
-    }
+    setLanguage(savedLanguage)
   }, [])
 
   // Toggle dark mode
@@ -232,29 +233,16 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between">
           {/* Logo with Ethiopian-inspired colors */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <Link href="/" className="flex items-center space-x-2">
-              <motion.div 
-                className="bg-gradient-to-br from-green-600 to-emerald-800 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
-                whileHover={{ rotate: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <GraduationCap className="h-6 w-6 text-white" />
-              </motion.div>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
-                  Fayida <span className="text-emerald-600 dark:text-emerald-400">Academy</span>
-                </span>
-                <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium tracking-wide -mt-1">
-                  ETHIOPIA'S PREMIER E-LEARNING
-                </span>
-              </div>
-            </Link>
-          </motion.div>
+
+    <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
+      <Image
+        src="/logo.png"
+        alt="Fayida Academy Logo"
+        width={150}
+        height={100}
+        className="rounded-xl"
+      />
+    </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-2">
@@ -281,8 +269,8 @@ export default function Navbar() {
                         <Button 
                           variant="ghost" 
                           className={cn(
-                            "flex items-center space-x-1 text-gray-800 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/50 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl px-4 py-2 group relative",
-                            pathname.startsWith('/subjects') && "text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30"
+                            "flex items-center space-x-1 text-base text-gray-800 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/50 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl px-4 py-2 group relative",
+                            pathname.startsWith(link.href) && "text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30"
                           )}
                         >
                           <span>{link.name}</span>
@@ -307,7 +295,7 @@ export default function Navbar() {
                             animate="visible"
                             exit="exit"
                           >
-                            <div className="grid grid-cols-2 gap-1 p-2">
+                            <div className="grid gap-1 p-2">
                               {link.items?.map((item) => (
                                 <motion.div
                                   key={item.name}
@@ -345,7 +333,7 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         className={cn(
-                          "flex items-center space-x-1 text-gray-800 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/50 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl px-4 py-2 font-medium relative group",
+                          "flex items-center space-x-1 text-base text-gray-800 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/50 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl px-4 py-2 font-medium relative group",
                           pathname === link.href && "text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30"
                         )}
                       >
@@ -384,7 +372,7 @@ export default function Navbar() {
                 </Button>
               </motion.div>
 
-              {/* Language selector */}
+              {/* Language selector with Amharic priority */}
               <div className="relative" ref={languageRef}>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
@@ -392,11 +380,11 @@ export default function Navbar() {
                 >
                   <Button
                     variant="ghost"
-                    className="flex items-center space-x-1 text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-xl px-3 py-2"
+                    className="flex items-center space-x-1 text-base text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-xl px-3 py-2"
                     onClick={() => setLanguageOpen(!languageOpen)}
                   >
                     <Globe className="h-4 w-4" />
-                    <span className="text-sm font-medium">{currentLanguage.flag} {currentLanguage.code.toUpperCase()}</span>
+                    <span className="font-medium">{currentLanguage.flag} {currentLanguage.code.toUpperCase()}</span>
                     <ChevronDown className={cn(
                       "h-4 w-4 transition-transform",
                       languageOpen && "rotate-180"
@@ -418,7 +406,7 @@ export default function Navbar() {
                           <button
                             key={lang.code}
                             className={cn(
-                              "flex items-center w-full px-4 py-2 text-left text-gray-800 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/30",
+                              "flex items-center w-full px-4 py-3 text-left text-gray-800 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/30",
                               language === lang.code && "bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400"
                             )}
                             onClick={() => changeLanguage(lang.code)}
@@ -453,10 +441,6 @@ export default function Navbar() {
                   asChild
                   className="rounded-xl font-medium bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-lg hover:shadow-emerald-300 text-white group"
                 >
-                  <Link href="/packages">
-                    <Package className="h-4 w-4 mr-1 group-hover:animate-bounce" />
-                    <span>Premium Packages</span>
-                  </Link>
                 </Button>
               </motion.div>
 
@@ -632,17 +616,18 @@ export default function Navbar() {
                 <div className="flex flex-col h-full">
                   {/* Header */}
                   <div className="p-4 border-b bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/30 dark:to-teal-900/30">
-                    <div className="flex items-center justify-between">
-                      <Link href="/" className="flex items-center space-x-2" onClick={() => setOpen(false)}>
-                        <div className="bg-gradient-to-br from-emerald-600 to-teal-800 w-8 h-8 rounded-xl flex items-center justify-center">
-                          <GraduationCap className="h-5 w-5 text-white" />
-                        </div>
-                        <span className="text-xl font-bold text-gray-900 dark:text-white">
-                          Fayida <span className="text-emerald-600 dark:text-emerald-400">Academy</span>
-                        </span>
-                      </Link>
-                    </div>
-                  </div>
+  <div className="flex items-center justify-between">
+    <Link href="/" className="flex items-center space-x-2" onClick={() => setOpen(false)}>
+      <Image
+        src="/logo.png"
+        alt="Fayida Academy Logo"
+        width={40}
+        height={40}
+        className="rounded-xl"
+      />
+    </Link>
+  </div>
+</div>
                   
                   {/* Navigation */}
                   <div className="flex-1 overflow-y-auto py-4 px-2">
@@ -652,7 +637,7 @@ export default function Navbar() {
                           {link.dropdown ? (
                             <div className="mb-2">
                               <button 
-                                className="flex items-center justify-between w-full p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 group"
+                                className="flex items-center justify-between w-full p-3 rounded-lg text-base text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 group"
                                 onClick={() => setSubjectsOpen(!subjectsOpen)}
                               >
                                 <div className="flex items-center space-x-2">
@@ -672,7 +657,7 @@ export default function Navbar() {
                               
                               {subjectsOpen && (
                                 <motion.div
-                                  className="grid grid-cols-2 gap-1 pl-6 pr-2 py-1"
+                                  className="grid gap-1 pl-6 pr-2 py-1"
                                   initial={{ height: 0, opacity: 0 }}
                                   animate={{ height: "auto", opacity: 1 }}
                                   exit={{ height: 0, opacity: 0 }}
@@ -704,7 +689,7 @@ export default function Navbar() {
                             <Link
                               href={link.href}
                               className={cn(
-                                "flex items-center space-x-2 p-3 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/30 group",
+                                "flex items-center space-x-2 p-3 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/30 group text-base",
                                 pathname === link.href && "bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400"
                               )}
                               onClick={() => setOpen(false)}
@@ -731,13 +716,13 @@ export default function Navbar() {
                             key={lang.code}
                             variant={language === lang.code ? "default" : "outline"}
                             className={cn(
-                              "flex items-center justify-center",
+                              "flex items-center justify-center py-3",
                               language === lang.code ? "bg-emerald-600 hover:bg-emerald-700" : "border-emerald-200 dark:border-gray-700 text-emerald-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-gray-800"
                             )}
                             onClick={() => changeLanguage(lang.code)}
                           >
                             <span className="text-lg mr-1">{lang.flag}</span>
-                            <span className="text-xs">{lang.name}</span>
+                            <span className="text-sm">{lang.name}</span>
                           </Button>
                         ))}
                       </div>
@@ -749,6 +734,19 @@ export default function Navbar() {
                       <div className="space-y-2">
                         {isLoggedIn ? (
                           <>
+                            <Link 
+                              href="/profile"
+                              className="w-full"
+                              onClick={() => setOpen(false)}
+                            >
+                              <Button 
+                                variant="outline"
+                                className="w-full justify-start rounded-lg border-emerald-300 text-emerald-700 dark:text-emerald-400"
+                              >
+                                <User className="h-4 w-4 mr-2" />
+                                My Profile
+                              </Button>
+                            </Link>
                             <Button 
                               variant="outline"
                               className="w-full justify-start rounded-lg border-emerald-300 text-emerald-700 dark:text-emerald-400"
@@ -766,7 +764,7 @@ export default function Navbar() {
                             >
                               <Link href="/login" onClick={() => setOpen(false)}>
                                 <LogIn className="h-4 w-4 mr-2" />
-                                Login to Your Account
+                                Login to Account
                               </Link>
                             </Button>
                             <Button 
@@ -776,7 +774,7 @@ export default function Navbar() {
                             >
                               <Link href="/signup" onClick={() => setOpen(false)}>
                                 <UserPlus className="h-4 w-4 mr-2" />
-                                Create New Account
+                                Create Account
                               </Link>
                             </Button>
                           </>
@@ -795,13 +793,6 @@ export default function Navbar() {
                         asChild
                         className="w-full rounded-xl font-medium bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white py-6 shadow-lg"
                       >
-                        <Link href="/packages" onClick={() => setOpen(false)}>
-                          <Package className="h-5 w-5 mr-2" />
-                          <div className="text-left">
-                            <div className="font-bold">Premium Packages</div>
-                            <div className="text-xs font-normal opacity-90">Unlock all subjects & features</div>
-                          </div>
-                        </Link>
                       </Button>
                     </motion.div>
                   </div>

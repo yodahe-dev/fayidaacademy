@@ -1,6 +1,7 @@
 import Hero from "@/app/(user)/(home)/Hero";
 import StreamsSection from './SubjectsSection';
 import LearningExperience from "./LearningExperience";
+import PackagesPage from "./package";
 
 export default function page() {
   return (
@@ -8,6 +9,7 @@ export default function page() {
       <Hero />
       <StreamsSection/>
       <LearningExperience/>
+      <PackagesPage />
     </div>
   )
 }
